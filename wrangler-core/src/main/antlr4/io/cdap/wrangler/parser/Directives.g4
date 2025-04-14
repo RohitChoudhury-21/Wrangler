@@ -197,7 +197,7 @@ identifierList
 
 
 /*
- * Following are the Lexer Rules used for tokenizing the recipe.
+ * The following are the Lexer Rules used for tokenizing the recipe.
  */
 OBrace   : '{';
 CBrace   : '}';
@@ -311,3 +311,28 @@ fragment Int
 fragment Digit
  : [0-9]
  ;
+
+// NEW LEXER RULES
+
+// BYTE_SIZE: Matches numeric values followed by a byte unit
+BYTE_SIZE
+  : NUMERIC BYTE_UNIT
+  ;
+
+fragment BYTE_UNIT
+  : [kK][bB]? | [mM][bB]? | [gG][bB]? | [tT][bB]?
+  ;
+
+// TIME_DURATION: Matches numeric values followed by a time unit
+TIME_DURATION
+  : NUMERIC TIME_UNIT
+  ;
+
+fragment TIME_UNIT
+  : 'ms' | 's' | 'm' | 'h'
+  ;
+
+// NUMERIC: Matches numeric values (integer or decimal)
+fragment NUMERIC
+  : [0-9]+ ('.' [0-9]+)?
+  ;
