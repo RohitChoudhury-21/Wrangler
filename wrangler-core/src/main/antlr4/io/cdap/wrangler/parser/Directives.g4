@@ -167,6 +167,15 @@ bool
  : Bool
  ;
 
+byteSizeArg
+ : BYTE_SIZE
+ ;
+
+timeDurationArg
+ : TIME_DURATION
+ ;
+
+
 condition
  : OBrace (~CBrace | condition)* CBrace
  ;
