@@ -29,7 +29,7 @@ import java.util.List;
  * itself. Each token specification has an associated ordinal that can be used to position the argument
  * within the directive.
  *
- * Following is a example of how this class can be used.
+ * The following is an example of how this class can be used.
  * <code>
  *   UsageDefinition.Builder builder = UsageDefinition.builder();
  *   builder.add("col1", TypeToken.COLUMN_NAME); // By default, this field is required.
@@ -56,7 +56,7 @@ public final class UsageDefinition implements Serializable {
 
   /**
    * Returns the name of the directive for which the this <code>UsageDefinition</code>
-   * object is created.
+   * The object is created.
    *
    * @return name of the directive.
    */
@@ -97,7 +97,7 @@ public final class UsageDefinition implements Serializable {
     sb.append(directive).append(" ");
 
     int count = tokens.size();
-    for (TokenDefinition token : tokens) {
+    for (TokenDefinition token: tokens) {
       if (token.optional()) {
         sb.append(" [");
       }
@@ -126,7 +126,12 @@ public final class UsageDefinition implements Serializable {
           sb.append("prop:{key:value,[key:value]*");
         } else if (token.type().equals(TokenType.RANGES)) {
           sb.append("start:end=[bool|text|numeric][,start:end=[bool|text|numeric]*");
-        }
+        }   else if (token.type().equals(TokenType.BYTE_SIZE)) {
+          sb.append(token.name()).append(" (e.g., 10KB, 1MB)");
+        } else if (token.type().equals(TokenType.TIME_DURATION)) {
+          sb.append(token.name()).append(" (e.g., 500ms, 2s)");
+  }
+
       }
 
       count--;
@@ -144,9 +149,9 @@ public final class UsageDefinition implements Serializable {
 
   /**
    * This is a static method for creating a builder for the <code>UsageDefinition</code>
-   * object. In order to create a <code>UsageDefinition</code>, a builder has to created.
+   * object. To create a <code>UsageDefinition</code>, a builder has to be created.
    *
-   * <p>This builder is provided as user API for constructing the usage specification
+   * <p>This builder is provided as a user API for constructing the usage specification
    * for a directive.</p>
    *
    * @param directive name of the directive for which the builder is created for.
@@ -189,7 +194,7 @@ public final class UsageDefinition implements Serializable {
     }
 
     /**
-     * Allows users to define a token with a name, type of the token and additional optional
+     * Allows users to define a token with a name, type of the token, and additional optional
      * for the label that is used during creation of the usage for the directive.
      *
      * @param name of the token in the definition of a directive.
@@ -212,14 +217,14 @@ public final class UsageDefinition implements Serializable {
      */
     public void define(String name, TokenType type, boolean optional) {
       TokenDefinition spec = new TokenDefinition(name, type, null, currentOrdinal, optional);
-      optionalCnt = optional ? optionalCnt + 1 : optionalCnt;
+      optionalCnt = optional? optionalCnt + 1: optionalCnt;
       currentOrdinal++;
       tokens.add(spec);
     }
 
     /**
      * Method allows users to specify a field as optional in combination to the
-     * name of the token, the type of token and also the ability to specify a label
+     * name of the token, the type of token, and also the ability to specify a label
      * for the usage.
      *
      * @param name of the token in the definition of a directive.
@@ -229,7 +234,7 @@ public final class UsageDefinition implements Serializable {
      */
     public void define(String name, TokenType type, String label, boolean optional) {
       TokenDefinition spec = new TokenDefinition(name, type, label, currentOrdinal, optional);
-      optionalCnt = optional ? optionalCnt + 1 : optionalCnt;
+      optionalCnt = optional? optionalCnt + 1: optionalCnt;
       currentOrdinal++;
       tokens.add(spec);
     }
