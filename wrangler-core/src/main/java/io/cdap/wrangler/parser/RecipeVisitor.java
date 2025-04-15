@@ -352,6 +352,18 @@ public Object visitByteSizeArg(DirectivesParser.ByteSizeArgContext ctx) {
     }
 }
 
+  @Override
+public Object visitTimeDurationArg(DirectivesParser.TimeDurationArgContext ctx) {
+    String raw = ctx.getText(); // e.g., "500ms"
+    try {
+        TimeDuration duration = new TimeDuration(raw); // parses and returns canonical value
+        return duration; // or wrap in a Token: new Token(TokenType.TIME_DURATION, duration)
+    } catch (Exception e) {
+        throw new DirectiveParseException("Invalid time duration: " + raw, e);
+    }
+}
+
+
 
   private SourceInfo getOriginalSource(ParserRuleContext ctx) {
     int a = ctx.getStart().getStartIndex();
