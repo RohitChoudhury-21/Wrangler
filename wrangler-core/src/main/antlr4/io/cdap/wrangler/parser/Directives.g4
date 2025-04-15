@@ -175,6 +175,8 @@ timeDurationArg
  : TIME_DURATION
  ;
 
+BYTE_SIZE : NUMERIC BYTE_UNIT ;
+TIME_DURATION : NUMERIC TIME_UNIT ;
 
 condition
  : OBrace (~CBrace | condition)* CBrace
