@@ -52,7 +52,7 @@ import java.util.Map;
  * used during traversal of the AST tree. The <code>ParserTree#Walker</code>
  * invokes appropriate methods as call backs with information about the node.
  *
- * <p>In order to understand what's being invoked, please look at the grammar file
+ * <p> To understand what's being invoked, please look at the grammar file
  * <tt>Directive.g4</tt></p>.
  *
  * <p>This class exposes a <code>getTokenGroups</code> method for retrieving the
@@ -340,6 +340,18 @@ public RecipeSymbol.Builder visitValue(DirectivesParser.ValueContext ctx) {
     builder.addToken(new TextList(strs));
     return builder;
   }
+
+  @Override
+public Object visitByteSizeArg(DirectivesParser.ByteSizeArgContext ctx) {
+    String raw = ctx.getText(); // e.g., "10MB"
+    try {
+        ByteSize byteSize = new ByteSize(raw); // this should parse and normalize the value
+        return byteSize; // or wrap in a Token if needed: new Token(TokenType.BYTE_SIZE, byteSize)
+    } catch (Exception e) {
+        throw new DirectiveParseException("Invalid byte size: " + raw, e);
+    }
+}
+
 
   private SourceInfo getOriginalSource(ParserRuleContext ctx) {
     int a = ctx.getStart().getStartIndex();
